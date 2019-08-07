@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.1.7.RELEASE'
 	id 'java'
 	id 'groovy'
+	id 'application'
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -12,6 +13,10 @@ sourceCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
+}
+
+run {
+	main = 'com.example.demo.DemoApplication'
 }
 
 dependencies {
