@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -38,13 +40,18 @@ public class RestLoanService implements LoanService {
         // the API correctly answers to the UTC time zone, no need to specify different time zone
         Instant instant = Instant.now().minusMillis(millis);
 
+        // there are two possible problems in the next 10 lines of the code, lets discuss this during the interview
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiUrl + "/loans/marketplace")
                 .queryParam("datePublished__gt", instant);
 
         log.info("Requesting loans from marketplace: {}", builder.toUriString());
 
+        final HttpHeaders headers = new HttpHeaders();
+        headers.set("X-Size", "10000");
+        HttpEntity entity = new HttpEntity(headers);
+
         ResponseEntity<List<Loan>> response = restTemplate.exchange(builder.toUriString(),
-                HttpMethod.GET, null, new ParameterizedTypeReference<List<Loan>>() {});
+                HttpMethod.GET, entity, new ParameterizedTypeReference<List<Loan>>() {});
 
         return response.getBody();
     }
