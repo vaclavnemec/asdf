@@ -19,9 +19,9 @@ public class RestLoanService implements LoanService {
 
     private static final Logger log = LoggerFactory.getLogger(LoanTask.class);
 
-    private String apiUrl;
+    private final String apiUrl;
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     public RestLoanService(@Value("${apiUrl}") String apiUrl, RestTemplateBuilder builder) {
         this.apiUrl = apiUrl;

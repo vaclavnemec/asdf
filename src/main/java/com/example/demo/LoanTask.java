@@ -15,8 +15,8 @@ public class LoanTask {
 
     private static final Logger log = LoggerFactory.getLogger(LoanTask.class);
 
-    private int recentLoansMillis;
-    private LoanService loanService;
+    private final int recentLoansMillis;
+    private final LoanService loanService;
 
     public LoanTask(LoanService loanService, @Value("${recentLoansMillis}") int recentLoansMillis) {
         this.loanService = loanService;
