@@ -33,7 +33,7 @@ public class RestLoanService implements LoanService {
     @Override
     public List<Loan> getRecentLoans(int millis) {
 
-        if (millis < 0) {
+        if (millis <= 0) {
             throw new IllegalArgumentException("Parameter millis must be a positive number");
         }
 

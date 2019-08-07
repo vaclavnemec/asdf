@@ -33,4 +33,15 @@ class RestLoanServiceTest extends Specification {
         loans << [[], [new Loan(id: "123", amount: 5, story: "abc"), new Loan(id: "124", amount: 15, story: "xyz")]]
     }
 
+    def "validation of a parameter millis" () {
+        def builder = Mock(RestTemplateBuilder)
+        when:
+        new RestLoanService(null, builder).getRecentLoans(millis)
+        then:
+        def e = thrown(IllegalArgumentException)
+        e.message == "Parameter millis must be a positive number"
+        where:
+        millis << [0,-10]
+    }
+
 }
