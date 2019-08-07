@@ -15,18 +15,18 @@ public class LoanTask {
 
     private static final Logger log = LoggerFactory.getLogger(LoanTask.class);
 
-    private int loanTaskFixedRate;
+    private int recentLoansMillis;
     private LoanService loanService;
 
-    public LoanTask(LoanService loanService, @Value("${loanTaskFixedRate}") int loanTaskFixedRate) {
+    public LoanTask(LoanService loanService, @Value("${recentLoansMillis}") int recentLoansMillis) {
         this.loanService = loanService;
-        this.loanTaskFixedRate = loanTaskFixedRate;
+        this.recentLoansMillis = recentLoansMillis;
     }
 
-    @Scheduled(fixedRateString = "${loanTaskFixedRate}")
+    @Scheduled(fixedRateString = "${recentLoansMillis}")
     public void reportNewLoans() {
 
-        List<Loan> loans = loanService.getRecentLoans(loanTaskFixedRate);
+        List<Loan> loans = loanService.getRecentLoans(recentLoansMillis);
 
         log.info("The service returned {} loans.", loans.size());
 

@@ -30,6 +30,11 @@ public class RestLoanService implements LoanService {
 
     @Override
     public List<Loan> getRecentLoans(int millis) {
+
+        if (millis < 0) {
+            throw new IllegalArgumentException("Parameter millis must be a positive number");
+        }
+
         // the API correctly answers to the UTC time zone, no need to specify different time zone
         Instant instant = Instant.now().minusMillis(millis);
 
