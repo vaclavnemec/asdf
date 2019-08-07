@@ -9,7 +9,7 @@ import spock.lang.Unroll
 class LoanTaskTest extends Specification {
 
     @Rule
-    public OutputCapture capture = new OutputCapture();
+    public OutputCapture capture = new OutputCapture()
 
     def "loan task output reflects the loans returned from the mocked loan service" () {
 
