@@ -30,7 +30,7 @@ public class RestLoanService implements LoanService {
 
     @Override
     public List<Loan> getRecentLoans(int millis) {
-        // the API correctly answers to the UTC time zone, no need to specify different ime zone
+        // the API correctly answers to the UTC time zone, no need to specify different time zone
         Instant instant = Instant.now().minusMillis(millis);
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiUrl + "/loans/marketplace")
