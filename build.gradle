@@ -1,28 +1,25 @@
 plugins {
-	id 'org.springframework.boot' version '2.1.7.RELEASE'
-	id 'java'
-	id 'groovy'
-	id 'application'
+    id 'java'
+    id 'application'
+    id 'groovy'
 }
 
-apply plugin: 'io.spring.dependency-management'
-
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
-mainClassName = 'com.example.demo.DemoApplication'
-
 repositories {
-	mavenCentral()
+    jcenter()
 }
 
 dependencies {
-	implementation 'org.springframework:spring-web'
-	implementation 'com.fasterxml.jackson.core:jackson-databind'
-	implementation 'org.springframework.boot:spring-boot-starter'
+    compile 'org.apache.httpcomponents:httpclient:4.5.9'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
+    testImplementation group: 'net.bytebuddy', name: 'byte-buddy-gradle-plugin', version: '1.10.0'
+    testImplementation 'org.codehaus.groovy:groovy-all:2.5.6'
+    testImplementation 'org.spockframework:spock-core:1.2-groovy-2.5'
+    testImplementation 'junit:junit:4.12'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.spockframework:spock-core:1.2-groovy-2.5'
-	testImplementation 'junit:junit:4.12'
-	testImplementation 'org.codehaus.groovy:groovy-all:2.5.4'
+    compileOnly 'org.projectlombok:lombok:1.18.8'
+    annotationProcessor 'org.projectlombok:lombok:1.18.8'
+}
+
+application {
+    mainClassName = 'zvn.App'
 }

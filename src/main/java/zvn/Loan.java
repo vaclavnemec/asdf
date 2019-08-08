@@ -1,4 +1,4 @@
-package com.example.demo;
+package zvn;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
