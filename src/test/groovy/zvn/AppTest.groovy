@@ -5,6 +5,8 @@ import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.impl.client.CloseableHttpClient
 import spock.lang.Specification
 
+import java.time.Instant
+
 class AppTest extends Specification {
     def "testing unmarshalling and the format of the URI"() {
         setup:
@@ -13,9 +15,10 @@ class AppTest extends Specification {
         def client = Mock(CloseableHttpClient)
         def response = Mock(CloseableHttpResponse)
         def entity = Mock(HttpEntity)
+        def instant = Instant.now()
 
         when:
-        def result = app.get(client)
+        def result = app.get(client, instant)
 
         then:
         1 * client.execute({ it.getURI().toString() ==~
@@ -34,7 +37,7 @@ class AppTest extends Specification {
         def client = Mock(CloseableHttpClient)
 
         when:
-        def result = app.get(client)
+        def result = app.get(client, Instant.now())
 
         then:
         1 * client.execute(_) >> { throw new IOException("Oops!") }

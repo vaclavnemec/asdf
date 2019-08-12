@@ -16,6 +16,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @CommonsLog
@@ -25,20 +26,33 @@ public class App {
     private static final String URI = "https://api.zonky.cz/loans/marketplace";
 
     public static void main(String[] args) throws InterruptedException, URISyntaxException, IOException {
+        App app = new App();
+
+        Instant last = Instant.now().minusMillis(INTERVAL);
+
         while (true) {
             try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-                new App().get(httpClient).forEach(loan -> log.info("Loan: " + loan));
+
+                List<Loan> loans = app.get(httpClient, last);
+
+                loans.forEach(loan -> log.info("Loan: " + loan));
+
+                last = loans.stream().map(loan -> loan.getDatePublished().toInstant())
+                        .max(Comparator.naturalOrder())
+                        .orElse(last);
+
+                log.info("The last published date is: " + last);
+
                 Thread.sleep(INTERVAL);
             }
         }
     }
 
-    List<Loan> get(CloseableHttpClient httpClient) throws URISyntaxException {
+    List<Loan> get(CloseableHttpClient httpClient, Instant datePublished) throws URISyntaxException {
 
         URIBuilder builder = new URIBuilder(URI);
-        Instant instant = Instant.now().minusMillis(INTERVAL);
 
-        builder.setParameter("datePublished__gt", instant.toString());
+        builder.setParameter("datePublished__gt", datePublished.toString());
 
         URI build = builder.build();
 
